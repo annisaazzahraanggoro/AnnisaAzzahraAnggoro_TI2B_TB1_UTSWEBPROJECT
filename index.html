@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Personal | Profilku</title>
+    <!-- Menggunakan font Plus Jakarta Sans untuk kesan modern dan ramah -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= VARIABLES ================= */
+        :root {
+            --mint: #BFD8D2;
+            --peach: #FEDCD2;
+            --white: #FFFFFF;
+            --text-dark: #2C3E50;
+            --text-light: #596A7A;
+        }
+
+        /* ================= RESET & BASE ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            /* Pola background halus */
+            background-image: radial-gradient(var(--mint) 1.5px, transparent 1.5px);
+            background-size: 40px 40px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ================= BACKGROUND DECORATION ================= */
+        .bg-blobs {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: var(--peach);
+            top: -100px; left: -100px;
+        }
+        .blob-2 {
+            width: 500px; height: 500px;
+            background: var(--mint);
+            bottom: -150px; right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* ================= LAYOUT & GLASSMORPHISM ================= */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        /* ================= NAVIGATION ================= */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            background: var(--white);
+            color: var(--text-dark);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+        }
+        .nav-btn.active {
+            background: var(--text-dark);
+            color: var(--white);
+        }
+
+        /* ================= PAGES (SECTIONS) ================= */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography Halaman */
+        h1, h2 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+        h2 { font-size: 28px; border-bottom: 3px solid var(--mint); display: inline-block; padding-bottom: 5px; margin-bottom: 25px; }
+        p { color: var(--text-light); line-height: 1.8; margin-bottom: 15px; font-size: 16px; }
+
+        /* ================= 1. PROFIL STYLES ================= */
+        .hero {
+            display: flex;
+            align-items: flex-start; /* Diubah agar foto sejajar rapi di atas dengan teks */
+            gap: 40px;
+            padding: 20px 0;
+        }
+        .hero-img {
+            width: 250px; height: 250px;
+            flex-shrink: 0; /* Mengunci foto agar tidak menyusut tertekan oleh teks panjang */
+            background: var(--peach);
+            border-radius: 40px 40px 40px 10px; /* Bentuk asimetris modern */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 15px 15px 0px var(--mint);
+        }
+        .hero-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .hero-text h1 { font-size: 42px; font-weight: 800; }
+        .hero-text span { color: #E76F51; }
+        .badge {
+            background: var(--mint); color: var(--text-dark);
+            padding: 8px 16px; border-radius: 20px;
+            font-size: 14px; font-weight: 700; display: inline-block; margin-bottom: 15px;
+        }
+
+        /* ================= 2. PERSONAL STYLES ================= */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .info-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid var(--mint);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+        }
+        .info-card h3 { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .info-card h3 i { color: var(--peach); font-size: 24px; }
+        .info-list { list-style: none; }
+        .info-list li {
+            padding: 10px 0; border-bottom: 1px dashed var(--mint);
+            display: flex; justify-content: space-between;
+            gap: 15px;
+        }
+        .info-list li:last-child { border: none; }
+        .info-list span { 
+            font-weight: 600; 
+            color: var(--text-dark); 
+            text-align: right;
+            max-width: 65%;
+        }
+
+        /* ================= 3 & 4. KELUARGA & TEMAN STYLES (CARDS) ================= */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .person-card {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border-bottom: 4px solid var(--peach);
+        }
+        .person-card:hover { transform: translateY(-10px); }
+        .avatar-circle {
+            width: 100px; height: 100px;
+            background: var(--mint);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            padding: 10px;
+        }
+        .avatar-circle img { 
+            width: 100%; height: 100%; 
+            object-fit: cover; /* Mencegah foto asli menjadi gepeng */
+            border-radius: 50%; /* Membuat pinggiran foto membulat */
+        }
+        .person-card h4 { font-size: 18px; margin-bottom: 5px; }
+        .person-card p.role { font-size: 14px; color: var(--peach); font-weight: 700; margin-bottom: 10px; }
+
+        /* ================= 4. TEMAN & SEKITAR STYLES (SLIDER) ================= */
+        .friend-group {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid var(--peach);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+            margin-bottom: 25px;
+        }
+        .friend-group:nth-child(even) {
+            border-left-color: var(--mint);
+        }
+        .friend-group h3 {
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 20px;
+        }
+        .friend-group h3 i { color: var(--text-dark); opacity: 0.7; }
+        
+        /* Container untuk scroll horizontal */
+        .slider-container {
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory; /* Membuat scroll otomatis pas di gambar */
+            padding-bottom: 15px; /* Ruang untuk scrollbar */
+        }
+        
+        /* Kustomisasi bentuk scrollbar agar cantik */
+        .slider-container::-webkit-scrollbar { height: 8px; }
+        .slider-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb { background: var(--mint); border-radius: 10px; }
+        .slider-container::-webkit-scrollbar-thumb:hover { background: var(--peach); }
+
+        .slider-wrapper {
+            display: flex;
+            gap: 15px;
+            width: max-content; /* Membiarkan container melebar sesuai jumlah gambar */
+        }
+        .slider-img {
+            width: 260px;
+            height: 180px;
+            object-fit: cover; /* Agar foto tidak gepeng */
+            border-radius: 15px;
+            scroll-snap-align: start; /* Titik berhenti saat discroll */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .slider-img:hover {
+            transform: scale(1.03); /* Efek membesar sedikit saat disentuh/hover */
+        }
+
+        /* ================= 5. HOBI STYLES ================= */
+        .hobi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .hobi-item {
+            background: var(--white);
+            padding: 30px 20px;
+            border-radius: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .hobi-item:hover {
+            background: var(--mint);
+            color: var(--text-dark);
+        }
+        .hobi-item i {
+            font-size: 40px; color: var(--peach); margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+        .hobi-item:hover i { transform: scale(1.2); color: var(--text-dark); }
+        .hobi-item h4 { font-weight: 700; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; }
+            .hero-img { box-shadow: 0px 15px 0px var(--mint); margin-bottom: 20px; }
+            nav { gap: 10px; }
+            .nav-btn { padding: 10px 16px; font-size: 14px; }
+            .container { padding: 20px; margin: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dekorasi Background -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <!-- Navigasi (Pengganti Halaman) -->
+        <nav>
+            <button class="nav-btn active" onclick="showPage('profil', this)"><i class="fa-solid fa-user"></i> Profil</button>
+            <button class="nav-btn" onclick="showPage('personal', this)"><i class="fa-solid fa-address-card"></i> Personal</button>
+            <button class="nav-btn" onclick="showPage('keluarga', this)"><i class="fa-solid fa-house-chimney"></i> Keluarga</button>
+            <button class="nav-btn" onclick="showPage('teman', this)"><i class="fa-solid fa-user-group"></i> Teman</button>
+            <button class="nav-btn" onclick="showPage('hobi', this)"><i class="fa-solid fa-gamepad"></i> Hobi</button>
+        </nav>
+
+        <main>
+            <!-- HALAMAN 1: PROFIL -->
+            <section id="profil" class="page active">
+                <div class="hero">
+                    <div class="hero-img">
+                        <!-- Path sudah disesuaikan dengan foto lokal ProfilePicture.JPEG -->
+                        <img src="ProfilePicture.JPEG" alt="Foto Profil">
+                    </div>
+                    <div class="hero-text">
+                        <div class="badge">Selamat Datang 👋</div>
+                        <h1>Halo, Saya <br><span>Annisa Azzahra</span></h1>
+                        <p>Saya adalah mahasiswa Teknik Informatika yang punya rasa penasaran tinggi dan suka mencoba hal-hal baru, terutama di dunia teknologi dan digital. I’m the kind of person who gets excited over new ideas and unexpected challenges.</p>
+                        <p>Saya menikmati proses memahami sesuatu dari nol, walaupun kadang tidak mudah. Sometimes I overthink, but that’s also how I see things deeper than most people.</p>
+                        <p>Saya tertarik dengan bagaimana sebuah ide bisa berkembang menjadi sesuatu yang nyata dan berguna. Dalam prosesnya, saya terus belajar, mengevaluasi, dan berkembang.<br>Website ini saya gunakan sebagai ruang untuk mendokumentasikan pemikiran, pengalaman, dan hal-hal yang saya pelajari.</p>
+                        <p><i>A space to think, to build, and to reflect.<br>For all time, always.<br>Life is fun, but living is better, fellas!</i></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 2: INFORMASI PERSONAL -->
+            <section id="personal" class="page">
+                <h2>Informasi Personal</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3><i class="fa-solid fa-id-badge"></i> Biodata Diri</h3>
+                        <ul class="info-list">
+                            <li>Nama Lengkap <span>Annisa Azzahra Anggoro</span></li>
+                            <li>Panggilan <span>Nisa</span></li>
+                            <li>Tanggal Lahir <span>6 September 2025</span></li>
+                            <li>MBTI <span>ENTP</span></li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> Riwayat Pendidikan</h3>
+                        <ul class="info-list">
+                            <li>Teknik Informatika <span>PNJ (2025-2029)</span></li>
+                            <li>Computer Science <span>NUS (2024-2025)</span></li>
+                            <li>Fisika <span>IPB (2023-2024)</span></li>
+                            <li>SMA <span>Future Gate Int. HighSchool</span></li>
+                            <li>SMP <span>MTs Ibnutaimiyah</span></li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="grid-column: 1 / -1;">
+                        <h3><i class="fa-solid fa-location-dot"></i> Kontak & Alamat</h3>
+                        <p><strong>Alamat:</strong> Mahogany Residence, Blok B No. 69 Jl. Alternatif Transyogi, Harjamukti, Kec. Cimanggis, Kota Depok.</p>
+                        <p><strong>Email:</strong> annisaazzahraanggoro@gmail.com</p>
+                        <p><strong>Sosial Media:</strong> @annisa.zzahraa (Instagram)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 3: INFORMASI KELUARGA -->
+            <section id="keluarga" class="page">
+                <h2>Informasi Keluarga</h2>
+                <p>Berikut adalah anggota keluarga inti saya, saya merupakan anak pertama dari 3 bersaudara</p>
+                <div class="cards-container">
+                    <div class="person-card">
+                        <div class="avatar-circle">
+                            <!-- Path sudah disesuaikan dengan foto lokal abbi.JPEG -->
+                            <img src="abbi.JPEG" alt="Abbi">
+                        </div>
+                        <h4>Dwi Arto Anggoro</h4>
+                        <p class="role">Abbi</p>
+                        <p>Sosok pekerja keras dan penyabar, Abbi saya sekarang bekerja di perusahaan packaging miliknya</p>
+                    </div>
+                    <div class="person-card">
+                        <div class="avatar-circle" style="background: var(--peach)">
+                            <!-- Path sudah disesuaikan dengan foto lokal ummi.JPEG -->
+                            <img src="ummi.JPEG" alt="Ummi">
+                        </div>
+                        <h4>Estina Soleh</h4>
+                        <p class="role">Ummi</p>
+                        <p>Punya bisnis kue dan roti di rumah. Masakannya enak banget, serba bisa, dan public speakingnya keren banget cuy!</p>
+                    </div>
+                    <div class="person-card">
+                        <div class="avatar-circle">
+                            <!-- Path sudah disesuaikan dengan foto lokal auni.JPEG -->
+                            <img src="auni.JPEG" alt="Adik Pertama">
+                        </div>
+                        <h4>Auni Muthia Anggoro</h4>
+                        <p class="role">Adik Perempuan Pertama</p>
+                        <p>Saat ini sedang menempuh pendidikan kelas 10 SMK jurusan DKV di JIS.</p>
+                    </div>
+                    <div class="person-card">
+                        <div class="avatar-circle" style="background: var(--peach)">
+                            <!-- Path sudah disesuaikan dengan foto lokal maryam.JPEG -->
+                            <img src="maryam.JPEG" alt="Adik Kedua">
+                        </div>
+                        <h4>Asiah Maryam Anggoro</h4>
+                        <p class="role">Adik Perempuan Kedua</p>
+                        <p>Si bungsu di keluarga yang saat ini masih duduk di bangku kelas 4 SD.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 4: INFORMASI TEMAN -->
+            <section id="teman" class="page">
+                <h2>Teman & Sekitar</h2>
+                <p>Beberapa momen berharga bersama teman-teman, memories indeed!</p>
+                
+                <!-- Kategori 1: College -->
+                <div class="friend-group">
+                    <h3><i class="fa-solid fa-building-columns"></i> College</h3>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <img src="college1.JPEG" alt="College 1" class="slider-img">
+                            <img src="college2.JPEG" alt="College 2" class="slider-img">
+                            <img src="college3.JPEG" alt="College 3" class="slider-img">
+                            <img src="college4.JPEG" alt="College 4" class="slider-img">
+                            <img src="college5.JPEG" alt="College 5" class="slider-img">
+                            <img src="college6.JPEG" alt="College 6" class="slider-img">
+                            <img src="college7.JPEG" alt="College 7" class="slider-img">
+                            <img src="college8.JPEG" alt="College 8" class="slider-img">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kategori 2: Senior Year -->
+                <div class="friend-group">
+                    <h3><i class="fa-solid fa-graduation-cap"></i> Senior Year</h3>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <img src="senior1.JPEG" alt="Senior 1" class="slider-img">
+                            <img src="senior2.JPEG" alt="Senior 2" class="slider-img">
+                            <img src="senior3.JPEG" alt="Senior 3" class="slider-img">
+                            <img src="senior4.JPEG" alt="Senior 4" class="slider-img">
+                            <img src="senior5.JPEG" alt="Senior 5" class="slider-img">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kategori 3: Junior Year -->
+                <div class="friend-group">
+                    <h3><i class="fa-solid fa-school"></i> Junior Year</h3>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <img src="junior1.JPEG" alt="Junior 1" class="slider-img">
+                            <img src="junior2.JPEG" alt="Junior 2" class="slider-img">
+                            <img src="junior3.JPEG" alt="Junior 3" class="slider-img">
+                            <img src="junior4.JPEG" alt="Junior 4" class="slider-img">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 5: INFORMASI HOBI -->
+            <section id="hobi" class="page">
+                <h2>Hobi & Minat</h2>
+                <p>Untuk mengisi waktu luang, saya sering melakukan hal-hal berikut:</p>
+                <div class="hobi-grid">
+                    <div class="hobi-item">
+                        <i class="fa-solid fa-film"></i>
+                        <h4>Watching</h4>
+                        <p style="font-size: 13px; margin-top: 10px;">Movies, Series, Variety Shows, Hollywood, K-Dramas, dll.</p>
+                    </div>
+                    <div class="hobi-item">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <h4>Cafe Hopping</h4>
+                        <p style="font-size: 13px; margin-top: 10px;">I like it! Ngopi dan suasana baru.</p>
+                    </div>
+                    <div class="hobi-item">
+                        <i class="fa-solid fa-flag-checkered"></i>
+                        <h4>Car Racing</h4>
+                        <p style="font-size: 13px; margin-top: 10px;">Memacu adrenalin dan menyukai dunia balap.</p>
+                    </div>
+                    <div class="hobi-item">
+                        <i class="fa-solid fa-plane-departure"></i>
+                        <h4>Travelling</h4>
+                        <p style="font-size: 13px; margin-top: 10px;">Finding a new place to visit and explore.</p>
+                    </div>
+                    <div class="hobi-item">
+                        <i class="fa-solid fa-chess-knight"></i>
+                        <h4>Chess</h4>
+                        <p style="font-size: 13px; margin-top: 10px;">Seru aja, jadi mikir apalagi kalau lagi bosen.</p>
+                    </div>
+                    <div class="hobi-item">
+                        <i class="fa-solid fa-book-open"></i>
+                        <h4>Reading</h4>
+                        <p style="font-size: 13px; margin-top: 10px;">Membaca berbagai macam novel dan buku.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript untuk Sistem Navigasi Halaman -->
+    <script>
+        function showPage(pageId, btnElement) {
+            // 1. Sembunyikan semua halaman
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // 2. Hapus class active dari semua tombol navigasi
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 3. Tampilkan halaman yang dipilih
+            document.getElementById(pageId).classList.add('active');
+
+            // 4. Tambahkan class active ke tombol yang diklik
+            btnElement.classList.add('active');
+        }
+    </script>
+</body>
+</html>
